@@ -90,7 +90,11 @@ int main(){
     wchar_t var1 = 'B';
     
     char16_t var2 = 'C';
-    char32_t var3 = 'C';
+    char32_t var3 = U'C';
+
+    char var4 = '\n';
+    printf("Hello%cWorld\n", var4);
+    printf("\x06\n");
 
 #pragma endregion char----------------------------------------------------
 
