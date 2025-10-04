@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <uchar.h>
 #include <wchar.h>
+#include <io.h>
+#include <fcntl.h>
 
 #define GRAVITY 9.8f
 #define PI 3.141592
@@ -96,6 +98,11 @@ int main(){
     printf("Hello%cWorld\n", var4);
     printf("\x06\n");
 
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    wprintf(L"\x266B");
+    _setmode(_fileno(stdout), _O_TEXT);
+    wprintf(L"\x266B");
+    
 #pragma endregion char----------------------------------------------------
 
     return 0;
