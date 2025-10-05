@@ -1,4 +1,5 @@
 /*Operators and Operands*/
+
 #include <stdio.h>
 
 int main(){
@@ -27,10 +28,33 @@ int main(){
     int a8 = (a0 + 14)/3;
     printf("a8 = %d\n", a8);
 
-    int a9 = (1, 2, 3);
+    int a9 = (1, 2, 3); // a9 = 3
     printf("a9 = %d\n", a9);
-    
+
+    int a10 = printf("Hello World\n");
+    printf("%d\n", a10);
+
+    //int a11 = "Hello";// incorrect
+
+    int a12, a13 = 27, a14 = 4;
+
+    a12 = a14 = a13 = 1;
+    printf("a12 = %d\ta13 = %d\ta14 = %d\n", a12, a13, a14);
+
 #pragma endregion Variable initialization, assignment operator-------------------------------------------------------
 
+#pragma region Arithmetic Operators----------------------------------------------------------------------------------
+
+    int var0 = 5 + 3 - 2;
+    int var1 = var0 + 4;
+    printf("var1 = %d\n", var1);
+
+    int var2 = var0 * 2;
+    printf("var2 = %d\n", var2);
+
+    int var3 = var2 / 10;
+    printf("var3 = %d\n", var3);
+
+#pragma endregion----------------------------------------------------------------------------------------------------
     return 0;
 }
