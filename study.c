@@ -1,6 +1,7 @@
 /*Operators and Operands*/
 
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(){
 #pragma region Variable initialization, assignment operator-------------------------------------------------------
@@ -55,6 +56,13 @@ int main(){
     int var3 = var2 / 10;
     printf("var3 = %d\n", var3);
 
+    int var4 = var2 % 10;
+    printf("var4 = %d\n", var4);
+
+    unsigned long int var5 = 2000000000 + 1000000000;
+    printf("var5 = %lu\n", var5);
+
 #pragma endregion----------------------------------------------------------------------------------------------------
-    return 0;
+
+return 0;
 }
