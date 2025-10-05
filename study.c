@@ -1,15 +1,14 @@
-
 /*Operators and Operands*/
-
 #include <stdio.h>
 
-int main() {
-#pragma region Variables Initialization and assignment operator------------------------------------
-	int a0;
-	long long a1 = 1;
-	long long a2 = 5;
+int main(){
+#pragma region Variable initialization, assignment operator-------------------------------------------------------
 
-#pragma endregion
+    int a0;
+    long long int a1 = 1;
+    long long int a2 = 5;
+    
+#pragma endregion Variable initialization, assignment operator-------------------------------------------------------
 
-	return 0;
+    return 0;
 }
