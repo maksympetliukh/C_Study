@@ -1,51 +1,59 @@
-/*Bitwise operation exercises*/
+/*If, else if, else*/
 
 #include <stdio.h>
 
+int true = 1;
+int false = 0;
+
 int main() {
-    int a = 64;
-    int b = 5;
-    int c = -5;
+     if (true){printf("Hello");}
+     printf(" World\n");
 
-    a >>= 1;
-    printf("A after division by 2 = %d\n", a);
+     if (3.14){printf("3.14\n");}else{printf("Error\n");}
 
-    a ^= b;
-    b ^= a;
-    a ^= b;
-    printf("A after swap = %d\nB after swap = %d\n", a, b);
+     if (true != 0){printf("True\n");}else{printf("False\n");}
 
-    if (b & 1){printf("B is odd\n");}else{printf("B is even\n");}
+     if (printf("111\n")){printf("Good job\n");}else{printf("Try again\n");}
 
-    if (a != 0 && (a & (a - 1)) == 0){printf("A is power of 2\n");}else{printf("A isn't power of 2\n");}
+     //if(void){}//ERROR/INCORRECT
+     //if(int a = 5){}//INCORRECT/if(a = 5){}/INCORRECT
 
-    if (b & (1 << 2)){printf("Target bit set\n");}else{printf("Target bit clear\n");}
+     if (true > 0){printf("Success\n");}else{printf("Try again\n");}
 
-    int bit_count = __builtin_popcount(a);
-    printf("Number of set bits in A = %d\n", bit_count);
+     if (true >= false){printf("Success\n");}else{printf("Try again\n");}
 
-    int sign = (c >> 31) & 1;
-    if (sign == 0){printf("C sign is '+'\n");}else{printf("C sing is '-'\n");}
+     //int x = 5;
+     //if (x > 0){int x = 10; printf("New x = %d\n");}else{printf("x = %d\n", x);}//INCORRECT ON GCC
 
-    int lsb =b & -b;
-    int index = 0;
-    while ((lsb & 1) == 0){lsb >>= 1; index++;}
-    printf("B least significant bit = %d\n", index);
+     if (true <= 1){printf("Success 1\n");}else if(false == 1){printf("Success 2\n");}else{printf("Try again");}
 
-    printf("Int max value = %d\n", ~(1 << 31));
-    printf("Unsigned int max value = %u\n", ~0U);
+     if (true > false){printf("T > F\n");}else if (true < false){printf("T < F\n");}else{printf("T == F");}
 
-    a |= (1  << 15);
-    a &= ~(1 << 2);
-    a ^= (1 << 0);
-    printf("A after bit set/clear/invert = %d\n", a);
+     if (true){if (true){printf("hello\n");}}//NESTED IF
 
-    a &= (a - 1);
-    printf("A after LSB clear = %d\n", a);
+     int day_of_week = 1;
 
-    unsigned mask = (1u << 1) -1;
-    unsigned result = b & mask;
-    printf("B's LSB mask = %u\n", result);
-
-    return 0;
+     if (day_of_week == 1) {
+          printf("Monday\n");
+     }
+     else if (day_of_week == 2) {
+          printf("Tuesday\n");
+     }
+     else if (day_of_week == 3) {
+          printf("Wednesday\n");
+     }
+     else if (day_of_week == 4) {
+          printf("Thursday\n");
+     }
+     else if (day_of_week == 5) {
+          printf("Friday\n");
+     }
+     else if (day_of_week == 6) {
+          printf("Saturday\n");
+     }
+     else if (day_of_week == 7) {
+          printf("Sunday\n");
+     }
+     else{printf("Error\n");}
+     return 0;
 }
