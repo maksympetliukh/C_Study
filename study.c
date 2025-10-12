@@ -1,59 +1,93 @@
-/*If, else if, else*/
+/*Switch, case, break, default*/
 
 #include <stdio.h>
 
-int true = 1;
-int false = 0;
-
 int main() {
-     if (true){printf("Hello");}
-     printf(" World\n");
+    int day_of_week = 1;
 
-     if (3.14){printf("3.14\n");}else{printf("Error\n");}
+    day_of_week += 1;
 
-     if (true != 0){printf("True\n");}else{printf("False\n");}
+    switch (day_of_week) {
+        case 1:
+            printf("Monday\n");
+        break;
+        case 2:
+            printf("Tuesday\n");
+        break;
+        case 3:
+            printf("Wednesday\n");
+        break;
+        case 4:
+            printf("Thursday\n");
+        break;
+        case 5:
+            printf("Friday\n");
+        break;
+        case 6:
+            printf("Saturday\n");
+        break;
+        case 7:
+            printf("Sunday\n");
+        break;
+        default:
+            printf("Error\n");
+    }
 
-     if (printf("111\n")){printf("Good job\n");}else{printf("Try again\n");}
+    int a = 1;
 
-     //if(void){}//ERROR/INCORRECT
-     //if(int a = 5){}//INCORRECT/if(a = 5){}/INCORRECT
+    a <<= 1;
 
-     if (true > 0){printf("Success\n");}else{printf("Try again\n");}
+    switch (a) {
+        case 2:
+            printf("two\n");
+        break;
+        case 4:
+            printf("four\n");
+        break;
+        case 8:
+            printf("eight\n");
+        break;
+        case 16:
+            printf("sixteen\n");
+        break;
+        default:
+            printf("Not a power of 2\n ");
+    }
 
-     if (true >= false){printf("Success\n");}else{printf("Try again\n");}
 
-     //int x = 5;
-     //if (x > 0){int x = 10; printf("New x = %d\n");}else{printf("x = %d\n", x);}//INCORRECT ON GCC
+    switch (1) {
+        case 1:
+            printf("Hello ");
+        case 2:
+            printf("dear ");
+        case 3:
+            printf("World\n");
+            break;
+        default:
+            printf("No case\n");
+    }
 
-     if (true <= 1){printf("Success 1\n");}else if(false == 1){printf("Success 2\n");}else{printf("Try again");}
+    printf("Please, enter 'a' or 'A' and press Enter\n");
 
-     if (true > false){printf("T > F\n");}else if (true < false){printf("T < F\n");}else{printf("T == F");}
+    switch (getchar()) {
+        case 'a':
+            printf("Lower register\n");
+        break;
+        case 'A':
+            printf("Upper register\n");
+        break;
+        default:
+            printf("Incorrect input\n");
+    }
 
-     if (true){if (true){printf("hello\n");}}//NESTED IF
+    int c = 1;
 
-     int day_of_week = 1;
-
-     if (day_of_week == 1) {
-          printf("Monday\n");
-     }
-     else if (day_of_week == 2) {
-          printf("Tuesday\n");
-     }
-     else if (day_of_week == 3) {
-          printf("Wednesday\n");
-     }
-     else if (day_of_week == 4) {
-          printf("Thursday\n");
-     }
-     else if (day_of_week == 5) {
-          printf("Friday\n");
-     }
-     else if (day_of_week == 6) {
-          printf("Saturday\n");
-     }
-     else if (day_of_week == 7) {
-          printf("Sunday\n");
-     }
-     else{printf("Error\n");}
-     return 0;
+    switch (c) {
+        case 1 ... 4:
+            printf("1 - 4\n");
+        break;
+        default:
+            printf("Incorrect input\n");
+    }
+        return 0;
 }
