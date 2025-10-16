@@ -1,66 +1,118 @@
-/*Loops while, do while, for*/
+/*Operators continue, break, go to*/
+#include <stdio.h>
 
- #include <stdio.h>
+int main() {
+    for (int i = 0; i < 10; ++i) {
 
- int main() {
-     int i = 10;
-     while (i > 0) {--i; printf("i = %d\n", i);}
+        if (i == 5){continue;}//skip i == 5 and continue loop
 
-     int c = -127;
-     while (++c){printf("c = %d\n", c);}
+        printf("Main loop %d\n", i);
+    }
 
-     char ch = -127;
-     while (--ch){printf("ch = %d\n", ch);}//overflowing
+    int a = 0;
+    while (a < 10) {
 
-     int x = 10;
-     while ((x--) > 0) {printf("x = %d\n", x);}
+        ++a;
+        if (a == 5){continue;}// skip  a == 5 and continue loop
 
-     //while (1){printf("Infinite loop\n");}//Infinite loop
+        printf("While loop %d\n", a);
+    }
 
-     int y = 10;
-     while (y <= 0 ? printf("y = %d\n", y) : --y){printf("While %d\n", y);}
+    for (int i = 0; i < 3; ++i) {
+        printf("Main loop %d\n", i);
+        for (int j = 0; j < 3; ++j) {
+            if (j == 2) {
+                continue;//skip j == 2 and continue nested loop
+            }
+            printf("Nested  loop %d\n", j);
+        }
+    }
 
-     //char buffer[100];
-     //char *pbuf = buffer;
-     //while ((*pbuf++ = getchar()) != '\n');
+    for (int i = 0; i < 10; ++i) {
+        printf("Main loop %d\n", i);
+        if (i == 5) {
+            continue;
+        }
+        if (i == 8) {
+            break;//exit from nested loop before printf
+        }
+        printf("Nested loop %d\n", i);
+    }
 
-    // int count = 0;
-     //while (buffer[count] != '\n'){printf("%c",buffer[count - 1]);}
+    int b = 5;
+    switch (b) {
+        case 1: printf("Switch %d\n", b);
+        case 2: printf("Switch %d\n", b);
+        case 3: printf("Switch %d\n", b);
+        case 4: printf("Switch %d\n", b);
+        case 5: printf("Switch %d\n", b);break;
+        default: printf("Switch default\n");
+    }
 
-     //pbuf = buffer - 1;
-     //while (*pbuf++ != '\n'){printf("%c", *pbuf);}
+    goto point1;
 
-     do{printf("hello\n");}while (0);
+    printf("Hello\n");//unusable while using goto
 
-     x = 5;
-     do{--x;printf("x = %d\n", x);}while (x > 0);
+    point1:printf("Point 1\n");
 
-     x = 1;
-     do{x <<= 1;printf("x = %d\n", x);}while (x < 8);
+    //goto point2;                   /
+    //point3: {printf("Hello\n");}  /useless
+    //point2:{printf("Point 2\n");}/
+    //goto point3;
 
-     //for (;;){}// infinite loop
+   // int f = 1;
+    //for (int i = 0; i < 10 && f; ++i) {
+        //printf("I-loop %d\n", i);
+        //for (int j = 0; j < 10; ++j) {
+            //printf("J-loop %d\n", j);
+            //for (int k = 0; k < 10; ++k) {
+                //printf("K-loop %d\n", k);
+                //if (k == 5) {
+                    //printf("Loop exit\n");
+                    //f = 0;
+                    //break;
+          //      }
+           // }
+       // }
+    //}
 
-     for (int iter = 0; iter < 10; ++iter) {printf("iteration = %d\n", iter);}
+    for (int i = 0; i < 10; ++i) {
+        printf("I-loop %d\n", i);
+        for (int j = 0; j < 10; ++j) {
+            printf("J-loop %d\n", j);
+            for (int k = 0; k < 10; ++k) {
+                printf("K-loop %d\n", k);
+                if (k == 5) {
+                    printf("End\n");
+                    goto label;
+                    break;
+                }
+            }
+        }
+    }
+    label:;//correct usage of goto in loops
 
-     for (int b = 10; b > 0; --b) {printf("b = %d\n", b);}
+    int c = 3;
+    switch (c) {
+        case 0: printf("Switch %d\n", c);
+        p1: case 1: printf("Switch %d\n", c);break;
+        case 2: printf("Switch %d\n", c);
+        case 3: printf("Switch %d\n", c);              //correct usage of goto in switch
+        case 4:{printf("Switch %d\n", c); goto p1;}
+        case 5: printf("Switch %d\n", c);break;
+        default: printf("Switch default\n");
+    }
 
-     for (int i_1 = 0, i_2 = 0; i_1 < 5, i_2 < 3; i_1++, ++i_2){printf("I1 = %d\tI2 = %d\n", i_1, i_2);}
+    //int var = 5;
+    //if (var == 2){printf("var = %d\n", var); return 2;}
+    //if (var == 3){printf("var = %d\n", var); return 3;}
+   // if (var == 4){int temp = printf("%d\n", var); printf("temp = %d\n", temp); return temp;}
+    //if (var == 5){return ++var,  printf("var = %d\n", var);}
 
-     int e = 10;
-     for (;--e;){printf("e = %d\n", e);}//can be replaced with while loop
+    for (int i = 0; i < 10; ++i) {
+        printf(" i = %d\n", i);
+        if (i == 5){ return 1; }//return as loop exit
+    }
 
-     for (int var = 0;var <= 10; var++){if (var != 0 && (var % 2 == 0)) {printf("var = %d\n", var);}}
-
-     for (int var1 = 0; var1 < 1; var1++) {
-         printf("Loop enter\n");
-         for (int var2 = 0; var2 < 1; var2++) {
-             printf("loop works\n");
-         }
-         printf("Loop exit\n");
-     }
-
-     //int a = 0;
-     //for (int counter = -1; counter != 0; --counter) {a = counter; printf("a = %d\n", a);}//overflowing//undefined behavior//or 1
-
-   return 0;
- }
+    return 0;
+}
