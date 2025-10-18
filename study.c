@@ -1,71 +1,62 @@
-/* Pointers */
+/* Arrays */
 
 #include <stdio.h>
-#include <stdlib.h>
+
+#define ARRAY_SIZE 5
+enum arr_size {small = 3, big = 10};
 
 int main() {
-    char ch = 'A';
-    int x = 28091798;
-    double w = 3.14;
-    int control_var = 777;
+    int arr0[ARRAY_SIZE];
+    int arr1[5];
+    int arr2[big];
 
-    int* p1;
-    int* p2 = NULL;
-    int* p3 = &x;
-    //int* p4 = 22222;//incorrect
+    const int size = 6;
+    //size = 7;//error!
+    int arr3[size];
 
-    int* p5 = p3;//record p3 valute into p5
-    //int* p6 = (int)3.14;//incorrect
+    int* ptr = &size;
+    *ptr = 10;
+    printf("Size: %d\n", size);
 
-    int* p7 = (int*)malloc(sizeof(int) * 5);
+    //int arr_s = 5;
+    //int arr4[arr_s] = {0, 1, 2, 3, 4};//incorrect
 
-    int var = 9;
-    int* pVar = &var;
-    int** ppVar = &pVar;
-    int*** pppVar = &ppVar;
+    int arr5[] = {1, 2, 3, 4, 5};//compiler will set array size automatically
 
-    int var1 = 21;
-    int* pVar1 = NULL;
-    int temp = 0;
+    int arr6[5] = {};//compiler will fill every element with zero {0, 0, 0, 0, 0}
+    printf("arr6[0] value = %d\n", arr6[0]);
+    printf("arr6[1] value = %d\n", arr6[1]);
+    printf("arr6[2] value = %d\n", arr6[2]);
 
-    //pVar1 = var1;//incorrect on GCC
-    pVar1 = &var1;
+    int arr7[small] = {};
+    printf("Array Size: %lld bytes\n", sizeof(arr7) / sizeof(arr7[0]));//sizeof(array) / sizeof(type)
 
-    *pVar1 = 10;
-    //temp = pVar1;//incorrect on GCC
-    temp = *pVar1;
-    printf("temp = %d\n", temp);
+    int arr8[big] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    for (int i = 0; i < big; i++) {printf("Arr8[%d] = %d\n", i, arr8[i]);}
+    arr8[0] = 15;//*(arr0 + 1)
+    arr8[1] = 16;
+    arr8[2] = 17;
+    arr8[3] = 18;
+    arr8[4] = 19;
+    arr8[5] = 20;
+    arr8[6] = 21;
+    arr8[7] = 22;
+    arr8[8] = 23;
+    arr8[9] = 24;
+    for (int i = 0; i < big; i++) {printf("arr8[%d] = %d\n", i, arr8[i]);}
 
-    //temp = &pVar1;//incorrect
+    int a = 0;
+    a = arr8[2];
+    printf("a = %d\n", a);
 
-    int myVar = 21;
-    printf("myVar = %d\n", myVar);
-    printf("myvar address = %p\n", &myVar);
+    a = arr8[0] + arr8[1];
+    printf("a = %d\n", a);
 
-    int* ptr1 = &myVar;
-    printf("ptr1 value = %d\n", *ptr1);
-    printf("ptr1 address = %p\n", ptr1);
+    a -= arr8[6];
+    printf("a = %d\n", a);
 
-    int** ptr2 = &ptr1;
-    printf("ptr2 value = %d\n", **ptr2);
-    printf("ptr2 address = %p\n", ptr2);
-
-    int*** ptr3 = &ptr2;
-    printf("ptr3 value = %d\n", ***ptr3);
-    printf("ptr3 address = %p\n", ptr3);
-
-    int i_var = 10;
-    double d_var = 3.14;
-
-    void* p_var = &i_var;
-    printf("p_var value = %d\n", *(int*)p_var);
-
-    void* p_ptr = &d_var;
-    printf("p_ptr value = %f\n", *(double*)p_ptr);
-
-    p_var = &i_var;
-    double* dpVar = p_var;
-    printf("dpVar value = %d\n", *(int*)dpVar);
+    a &= ~(1 << 1);
+    printf("a = %d\n", a);
 
     return 0;
 }
