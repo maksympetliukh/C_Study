@@ -1,29 +1,17 @@
-/* 1D Array Pointers */
+/* Pointers and compound literals */
 
 #include <stdio.h>
 
+struct Car{int year; int price; char name[10];};
+
+void SetCar(struct Car _car){printf("Year - %d\nPrice - %d USD\nBrand - %s\n", _car.year, _car.price, _car.name);};
+
 int main() {
-    int arr[3] = {1, 2, 3};
-    int (*p0)[3] = &arr;
+    int* p = (int[2]){1, 2};
+    printf("Address of compound literal is %p\n", p);
+    printf("p[1] =  %d\n", p[1]);
 
-    int x = 0;
-    //x = *p0;//incorrect//int cannot be int[]
-    //x = p0[1];//same
-
-    x = p0[0][1];//double dereference **p0[1];
-    printf("x = %d\n", x);
-
-    x = (*p0)[0];
-    printf("x = %d\n", x);
-
-    x = **p0;//(*p0)[0];
-    printf("x = %d\n", x);
-
-    x = **p0 + 2;//x = 3;(*p0)[2]//*(*p0 + 2)//x = po[0][2]//
-    printf("x = %d\n", x);
-
-    x = *(p0[0] + 1);//x = 2// x = *( *(p0[0] + 0) + 1);
-    printf("x = %d\n", x);
+    SetCar((struct Car){2001,3000, "Opel"});
 
     return 0;
 }
