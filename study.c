@@ -1,26 +1,21 @@
-/* Array of Characters */
+/* Pointers and Strings */
 
 #include <stdio.h>
 
 int main() {
-    char arr[5] = { 'A', 'B', 'C', 'D', 'E' };
+    char str0[] = "Hello, my friend";
+    printf("%s\n", str0);
 
-    printf("Arr 4 is %c\n", arr[4]);
-    //printf("Array's string %s\t", arr);//incorrect
+    char* p_str0 = str0;
+    printf("%s\n", p_str0);
+    printf("%c\n", p_str0[0]);
 
-    char str[6] = { 'A', 'B', 'C', 'D', 'E', '\0' };//use null character '\0' for correct string work
-    printf("String is %s\n", str);
+    //p_str0[0] = 'A';//incorrect, impossible to change the value of constant literal's element
 
-    char str1[] = "hello";
+    char str1[] = {'a', 'b', 'c', 'd', '\0'};//but now it's okay
+    char* p_str1 = str1;
+    p_str1[0] = 'F';
     printf("%s\n", str1);
 
-    //char str1[50] = "hello"//incorrect, compiler is going to fill every empty element with zero
-    //char str1[2] = "hello"//incorrect
-
-    char book[][3] = {"Hi", "Yo", "BB",{'a', 'b', '\0'}};
-    printf("%s\n", book[1]);
-
-    char format_arr[] = "Hello\nMy\n\"Kind\" World";
-    printf("%s\n", format_arr);
     return 0;
 }
