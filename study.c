@@ -1,35 +1,48 @@
-/* 2D array pointers */
+/* Pointers Array */
 
 #include <stdio.h>
 
 int main() {
-    int arr[3] = {1, 2, 3};
+    int arr[3] = {21, 8, 7};
 
-    int(*p1D)[3] = &arr;//1D array pointer
+    int* parr[3] = {NULL};
 
-    int x = p1D[0][2];
-    printf("x = %d\n", x);
+    parr[0] = &arr[0];
+    parr[1] = &arr[1];
+    parr[2] = &arr[2];
 
-    x = *(p1D[0] + 1);
-    printf("x = %d\n", x);
+    printf("pArr Address is %p\n", parr);
+    printf("pArr 1 = %d\n", *parr[0]);
+    printf("pArr 2 = %d\n", *parr[1]);
+    printf("pArr 3 = %d\n", *parr[2]);
 
+    char ch_arr[3] = {'C', 'B', 'A'};
+    char* ch_parr[3] = {NULL};
 
-    x = (*(p1D + 0))[1];
-    printf("x = %d\n", x);
+    ch_parr[0] = &ch_arr[0];
+    ch_parr[1] = &ch_arr[1];
+    ch_parr[2] = &ch_arr[2];
 
-    int arr2D[1][3] = {{2, 4, 6}};
-    int(*p2D)[1][3] = &arr2D;
-    int y = p2D[0][0][1];
-    printf("y = %d\n", y);
+    printf("ch_parr Address is %p\n", ch_arr);
+    printf("ch_parr 1 = %d\n", *ch_parr[0]);
+    printf("ch_parr 2 = %d\n", *ch_parr[1]);
+    printf("ch_parr 3 = %d\n", *ch_parr[2]);
 
-    y = *(p2D[0][0] + 2);
-    printf("y = %d\n", y);
+    printf("ch_parr 1 = %c\n", *ch_parr[0]);
+    printf("ch_parr 2 = %c\n", *ch_parr[1]);
+    printf("ch_parr 3 = %c\n", *ch_parr[2]);
 
-    y = *(( *(p2D[0]) + 0) + 2);
-    printf("y = %d\n", y);
+    int arr1[3] = {1, 2, 3};
+    int* arr1_ptr = arr1;
 
-    y = *((*(*p2D + 0) + 0) + 1);
-    printf("y = %d\n", y);
+    for (int i = 0; i < 3; i++) {arr1_ptr[i] = arr1[i]; printf("arr1[%d] = %d\n", i, arr1_ptr[i]);}
+
+    int x = 0;
+    printf("Address of x = %p\n", &x);
+
+    arr1_ptr[0] = x;
+    printf("arr1[0] = %d\n", arr1_ptr[0]);
+    printf("Address of arr1_ptr is %p\n", &arr1_ptr);
 
     return 0;
 }
