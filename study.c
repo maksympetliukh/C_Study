@@ -1,41 +1,65 @@
-/* Const and pointers */
+/* Sizeof, typedef */
 
 #include <stdio.h>
 
+typedef unsigned long long int uint64;
+typedef enum Days {Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday};
+
+typedef int ret_arr[5];
+ret_arr* RetArr(float){static int arr[5]; printf("Ok\n");return arr;}
+
 int main() {
-    int v0 = 5;
-    printf("v0 = %d\n", v0);
+    char c0 = 'A';
+    printf("%c = %d\nSize of c0 is %zu byte\n", c0, c0, sizeof(c0));
+    printf("Size of 'A' is %zu bytes\n", sizeof('A'));//compiler see 'A' as int type (4 bytes)
 
-    v0 = 20;
-    printf("new v0 = %d\n", v0);
+    unsigned char c1 = 'B';
+    printf("c1 size is %zu byte\n", sizeof(c1));
+    printf("Size of unsigned char is %zu bytes\n", sizeof(unsigned char));
 
-    const int v1 = 10;
-    printf("const v1 = %d\n", v1);
+    unsigned char c2 = 255;
+    unsigned char c3 = 255;
+    printf("Size of (c2 + c3) is %zu bytes\n", sizeof(c2 + c3));//compiler see it as int type
 
-    //v1 = 100;//error, const variable is read only!
+    //sizeof calculate bytes in type or expression but doesn't calculate result of expression
 
-    int const v2 = 15;//const qualifier can be placed at any position
-    printf("const v2 = %d\n", v2);
+    printf("Size of int is %zu bytes\n", sizeof(long));
+    printf("Size of short int is %zu bytes\n", sizeof(short));
+    printf("Size of double is %zu bytes\n", sizeof(double));
+    printf("Size of long double is %zu bytes\n", sizeof(long double));
 
-    int* p;
+    int arr[5];
+    int* p = arr;
 
-    int* const p1 = &v0;//consists only one address!
+    printf("Size of arr is %zu bytes\n", sizeof(arr));//size of sum of all elements (5 ints - 5 * 4 = 20 bytes)
+    printf("Size of pointer is %zu bytes\n", sizeof(*p));
+    printf("Size of array address is %zu bytes\n", sizeof(&arr));
+    printf("Size of element is %zu bytes\n", sizeof(arr[0]));
 
-    const int* p2 = &v1;//read-only pointer! Consists only constant address
+    printf("Count of array elements = %zu\n", sizeof(arr)/sizeof(arr[0]));
 
-    int const* p3 = &v2;//same
+    uint64 ui0 = 100000000000000000ULL;
+    printf("Size of ui0 is %zu bytes\n", sizeof(ui0));
 
-    const int* const p4 = &v1;//cannot change both address and value
+    enum Days today = 6;
 
-    int const arr0[3];//array with 3 constant elements
-    const int arr1[3];//same
+    int input =  today;
+    printf("Please, choose the day (From 0 to 6)\n");
+    scanf("%d", &input);
+    switch (input) {
+        case 0: printf("Today is Monday\n"); break;
+        case 1: printf("Today is Tuesday\n"); break;
+        case 2: printf("Today is Wednesday\n"); break;
+        case 3: printf("Today is Thursday\n"); break;
+        case 4: printf("Today is Friday\n"); break;
+        case 5: printf("Today is Saturday\n"); break;
+        case 6: printf("Today is Sunday\n"); break;
+        default: printf("Invalid input\n"); break;
+    }
 
-    int const* arr2[4];// array with constant pointers
-    const int arr3[4];//same
+    int(*(*Array[7])(float))[5] = {RetArr, RetArr, RetArr, RetArr, RetArr};
 
-    int* const arr4[3];//array with constant elements, impossible to change address, but possible to change values at elements
-
-    const int* const arr5[3];//impossible to change address and value
+    (*Array[0])(3.14);
 
     return 0;
 }
