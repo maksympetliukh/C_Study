@@ -1,65 +1,49 @@
-/* Sizeof, typedef */
+/* Functions in C */
 
 #include <stdio.h>
+#include "exterfunc.h"
 
-typedef unsigned long long int uint64;
-typedef enum Days {Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday};
+int add(int a, int b){return a+b;}
+int sub(int a, int b){return a-b;}
+int mul(int a, int b){return a*b;}
+int div(int a, int b){return a/b;}
+int mod(int a, int b){return a%b;}
 
-typedef int ret_arr[5];
-ret_arr* RetArr(float){static int arr[5]; printf("Ok\n");return arr;}
+int message(int x);
+//int func(int);//doesn't work since C23 standard
 
 int main() {
-    char c0 = 'A';
-    printf("%c = %d\nSize of c0 is %zu byte\n", c0, c0, sizeof(c0));
-    printf("Size of 'A' is %zu bytes\n", sizeof('A'));//compiler see 'A' as int type (4 bytes)
+    int a, b;
+    printf("Enter First Number: ");
+    scanf("%d",&a);
+    printf("Enter Second Number: ");
+    scanf("%d",&b);
+    printf("Choose an operation (+, -, *, /, %%): ");
+    char ans = 0;
+    scanf(" %c",&ans);
 
-    unsigned char c1 = 'B';
-    printf("c1 size is %zu byte\n", sizeof(c1));
-    printf("Size of unsigned char is %zu bytes\n", sizeof(unsigned char));
+    if ((ans == '/' || ans == '%') && b == 0){printf("Incorrect input\n"); return 1;}
 
-    unsigned char c2 = 255;
-    unsigned char c3 = 255;
-    printf("Size of (c2 + c3) is %zu bytes\n", sizeof(c2 + c3));//compiler see it as int type
-
-    //sizeof calculate bytes in type or expression but doesn't calculate result of expression
-
-    printf("Size of int is %zu bytes\n", sizeof(long));
-    printf("Size of short int is %zu bytes\n", sizeof(short));
-    printf("Size of double is %zu bytes\n", sizeof(double));
-    printf("Size of long double is %zu bytes\n", sizeof(long double));
-
-    int arr[5];
-    int* p = arr;
-
-    printf("Size of arr is %zu bytes\n", sizeof(arr));//size of sum of all elements (5 ints - 5 * 4 = 20 bytes)
-    printf("Size of pointer is %zu bytes\n", sizeof(*p));
-    printf("Size of array address is %zu bytes\n", sizeof(&arr));
-    printf("Size of element is %zu bytes\n", sizeof(arr[0]));
-
-    printf("Count of array elements = %zu\n", sizeof(arr)/sizeof(arr[0]));
-
-    uint64 ui0 = 100000000000000000ULL;
-    printf("Size of ui0 is %zu bytes\n", sizeof(ui0));
-
-    enum Days today = 6;
-
-    int input =  today;
-    printf("Please, choose the day (From 0 to 6)\n");
-    scanf("%d", &input);
-    switch (input) {
-        case 0: printf("Today is Monday\n"); break;
-        case 1: printf("Today is Tuesday\n"); break;
-        case 2: printf("Today is Wednesday\n"); break;
-        case 3: printf("Today is Thursday\n"); break;
-        case 4: printf("Today is Friday\n"); break;
-        case 5: printf("Today is Saturday\n"); break;
-        case 6: printf("Today is Sunday\n"); break;
-        default: printf("Invalid input\n"); break;
+    switch (ans) {
+        case '+': printf("Result = %d\n", add(a,b));break;
+        case '-': printf("Result = %d\n", sub(a,b));break;
+        case '*': printf("Result = %d\n", mul(a,b));break;
+        case '/': printf("Result = %d\n", div(a,b));break;
+        case '%': printf("Result = %d\n", mod(a,b));break;
+        default: return 0;
     }
 
-    int(*(*Array[7])(float))[5] = {RetArr, RetArr, RetArr, RetArr, RetArr};
+    message(0);
 
-    (*Array[0])(3.14);
+    external();
 
     return 0;
+}
+
+int message (int x) {
+    printf("Enter the number\n");
+    scanf("%d",&x);
+    if (x != 0){
+        printf("Correct input\n");
+    }else{printf("Incorrect input\n");}
 }

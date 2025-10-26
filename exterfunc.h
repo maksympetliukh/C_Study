@@ -1,0 +1,1 @@
+void external(void){printf("External function\n");}
