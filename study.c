@@ -1,19 +1,15 @@
-/* Main function*/
+/* Inline, _Noreturn */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+
+static inline int func(int a, int b, int c, int d){return a+b+c+d;}
+
+_Noreturn int func1(int a){exit(EXIT_SUCCESS);}
 
 int main(int argc, char* argv[]) {
 
-    char admin_pass[] = "admin";
-    for (int i = 1; i < argc; i++) {
-        printf("%d %s\n", i, argv[i]);
-        if (strcmp(admin_pass, argv[i]) == 0) {
-            printf("Admin mode");
-            system("Notepad");
-        }
-    }
+    func(1,2, 3,4);
 
-    return EXIT_SUCCESS;//or exit(EXIT_SUCCESS);
+    func1(1);
 }
