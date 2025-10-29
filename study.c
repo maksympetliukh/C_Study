@@ -1,15 +1,19 @@
-/* Value Reference */
+/* Main function*/
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-void swap_function(int* x, int* y) {int z = *x; *x = *y; *y = z; }
+int main(int argc, char* argv[]) {
 
-int main (){
-    int a = 5, b = 6, c = 0;
-    printf("A = %d\tB = %d\n", a, b);
-    swap_function(&a, &b);
+    char admin_pass[] = "admin";
+    for (int i = 1; i < argc; i++) {
+        printf("%d %s\n", i, argv[i]);
+        if (strcmp(admin_pass, argv[i]) == 0) {
+            printf("Admin mode");
+            system("Notepad");
+        }
+    }
 
-    printf("A = %d\tB = %d\n", a, b);
-
-    return 0;
+    return EXIT_SUCCESS;//or exit(EXIT_SUCCESS);
 }
