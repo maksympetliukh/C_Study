@@ -1,15 +1,55 @@
-/* Inline, _Noreturn */
+/* Recursion */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-static inline int func(int a, int b, int c, int d){return a+b+c+d;}
+/*
+#pragma region Indirect Recursion--------
+int counter = 20;
 
-_Noreturn int func1(int a){exit(EXIT_SUCCESS);}
+int func0();
+int func1();
+
+//Indirect recursion
+int func0() {
+    --counter;
+    if (counter <= 0) {return counter;}
+    printf("From func0 counter %d\n", counter);
+    counter -= func1();
+    return counter;
+}
+
+int func1() {
+    --counter;
+    if (counter <= 0) {return counter;}
+    printf("From func1 counter %d\n", counter);
+    counter -= func0();
+    return counter;
+}
 
 int main(int argc, char* argv[]) {
+    func0();
 
-    func(1,2, 3,4);
+    return EXIT_SUCCESS;
 
-    func1(1);
+#pragma endregion
 }
+*/
+
+
+/*
+#pragma region Stack Overflow--------
+
+int stack_overflow(int a){return  a += stack_overflow(a);}
+
+int main(int argc, char* argv[]) {
+    stack_overflow(2);
+
+    printf("End");
+
+    return EXIT_SUCCESS;
+
+#pragma  endregion \
+
+}
+*/
