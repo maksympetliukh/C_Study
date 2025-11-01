@@ -1,55 +1,43 @@
-/* Recursion */
+/* Preprocessor Directives */
 
-#include <stdio.h>
+#include <stdint.h>
+#include <stdio.h> // <header_file> - compiler takes header from standard catalogs
 #include <stdlib.h>
+#include <string.h>
+//#include "exterfunc.h"// "user_header" - compiler checks standard catalogs first, then it checks additional catalogs (compiler directory settings)
 
-/*
-#pragma region Indirect Recursion--------
-int counter = 20;
+//#include "C:\header.h"//possible, but incorrect (and similar ways)
 
-int func0();
-int func1();
+//#include "stdlib.h", #include <stdio.h>//possible but incorrect
+#ifndef PI
+#define PI 3.14159265 // constant variable
+#define ARRAY {1, 2, 3}//array
+#define CIRCLE_SQUARE(a) (PI * a * a)//function
+#define GREETING "Hello, World"
+#endif
 
-//Indirect recursion
-int func0() {
-    --counter;
-    if (counter <= 0) {return counter;}
-    printf("From func0 counter %d\n", counter);
-    counter -= func1();
-    return counter;
-}
+#define PRICE 100
 
-int func1() {
-    --counter;
-    if (counter <= 0) {return counter;}
-    printf("From func1 counter %d\n", counter);
-    counter -= func0();
-    return counter;
-}
+int main (int argc, char* argv[]) {
+    printf("Pi = %f\n", PI);
 
-int main(int argc, char* argv[]) {
-    func0();
+    double crcl_sqr = CIRCLE_SQUARE(3);
+    printf("Circle square = %f\n", crcl_sqr);
 
-    return EXIT_SUCCESS;
+    int arr[]  = ARRAY;
+    for (int i = 0; i < 3; i++){printf("element %d = %d\n", i, arr[i]);}
 
-#pragma endregion
-}
-*/
+    char str[] = GREETING;
+    printf("%s\n", str);
 
+    printf("Current time: %s\nCurrent date: %s\n", __TIME__, __DATE__);//standard macros
 
-/*
-#pragma region Stack Overflow--------
-
-int stack_overflow(int a){return  a += stack_overflow(a);}
-
-int main(int argc, char* argv[]) {
-    stack_overflow(2);
-
-    printf("End");
+#if PRICE == (10 * 10)
+    printf("100\n");
+#elif PRICE <= 0
+        printf("0\");
+#else printf("Incorrect\n");
+#endif
 
     return EXIT_SUCCESS;
-
-#pragma  endregion \
-
 }
-*/
