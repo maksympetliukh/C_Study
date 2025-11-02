@@ -1,39 +1,56 @@
-/* Pointers to functions as function parameters or(and) returned values */
+/* Arrays of Pointers to functions */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-int Sum(int a, int b){return a+b;}
-int Mul(int a, int b){return a*b;}
+void func0(){printf("Function 0\n");}
+void func1(){printf("Function 1\n");}
+void func2(){printf("Function 2\n");}
 
-int (*generic)(int, int) = NULL;
+void(*p[])() = {func0,func1,func2};
 
-int GenericMath(int(*gen)(int, int), int x, int y){return gen(x, y);}
+int sum(int x, int y){printf("Sum = %d\n", x + y); return x + y;}
+int multiply(int x, int y){printf("Multiply = %d\n", x * y); return x * y;}
 
-typedef int (*math_generic)(int, int);
-int GenericMath_t(math_generic gen, int x, int y) {
-    int res = gen(x, y);
-    printf("Result: %d\n", res);
-    return res;
-};
+double glob_data = 0;
 
-int (*var1(char ch))(int, int){
-    switch (ch) {
-        case 1: return Sum; break;
-        case 2: return Mul; break;
-        default: return NULL; break;
-    }
 
+
+double* (*(*(*p2[5])(double* ))[3])(int*, int* );
+double* outer_func(int* a, int* b) {
+    double* pDouble = &glob_data;
+    *pDouble += *a + *b;
+    printf("Outer function = %f\n", glob_data);
+    return pDouble;
 }
 
-int main(int argc, char* argv[]) {
-    printf("Sum = %d\n", GenericMath(Sum,5,7));
-    printf("Mul = %d\n", GenericMath(Mul,5,7));
+typedef  double* (*p_outer_func)(int* a, int* b);//double*(*)(int*, int*)
 
-    GenericMath_t(Sum,5,7);
-    GenericMath_t(Mul,5,7);
-    printf("Var1 = %d\n",var1(1)(2, 4));
-    printf("Var1 = %d\n",var1(2)(2, 4));
+p_outer_func arr[3] = {outer_func, outer_func, outer_func};
+
+p_outer_func* inner_func(double* a){p_outer_func arr1 = arr; return arr1;}
+
+typedef p_outer_func* (*p_inner_func)(double* a);//p_outer_func* (*)(double* a);
+p_inner_func arr2[3] = {inner_func, inner_func, inner_func};
+
+
+
+int main(int argc, char* argv[]) {
+    p[0]();
+    p[1]();
+    p[2]();
+
+    for (int i = 0; i < 3; i++){p[i]();}
+
+    int(*p1[])(int x, int y) = {sum,multiply};
+    for (int i = 0; i < 2; i++){p1[i](10, 4);}
+
+    int x = 5, y = 7;
+    (*arr[0])(&x, &y);
+    (*arr[1])(&x, &y);
+    (*arr[2])(&x, &y);
+
+    (*(*arr2[1])(&glob_data)[0])(&x, &y);
 
     return EXIT_SUCCESS;
 }
