@@ -1,21 +1,21 @@
-/*Variative Functions */
+/* Pointers to functions */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
 
-int sum(int arg_count, ...) {
-    int temp = 0;
-    va_list arg_ptr;
-    va_start(arg_ptr, arg_count);
-    for (int i = 0; i < arg_count; i++) {temp += va_arg(arg_ptr, int);}
-    va_end(arg_ptr);
-    return temp;
-}
+void greeting(void){printf("Hello World\n");}
+int sum(int a, int b){return a+b;}
 
 int main(int argc, char* argv[]) {
-    int s = sum(3, 4, 5, 6);
-    printf("%d\n", s);
+    void (*pFunc)(void) = &greeting;
+    int (*pSum)(int, int) = &sum;
+
+    pFunc();
+    (*greeting)();
+    (*pFunc)();
+
+    printf("Result = %d\n", (*pSum)(10, 20));
+    printf("Size of greeting is %lld bytes\n", sizeof(pFunc));
 
     return EXIT_SUCCESS;
 }
