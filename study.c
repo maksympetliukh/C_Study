@@ -1,4 +1,4 @@
-/* Dynamic memory allocation (Pt.1 Malloc) */
+/*Dynamic memory allocation - malloc*/
 
 #include <stdio.h>
 #include <stdlib.h>
