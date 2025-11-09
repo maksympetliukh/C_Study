@@ -1,79 +1,66 @@
-/* Errors in work with pointers */
+/* Variable length arrays */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-int* func(){int var = 28; return &var;}
-void func1(){int var = 10;}
+    //Function for example 2
+int vla_func(int arr_size, int vla[arr_size]) {
+    int mid = 0;
+    for (int i = 0; i < arr_size; i++) {
+        vla[i] = i;
+        printf("vla[%d] = %d\n", i, vla[i]);
+        mid += vla[i];
+    }
+    mid = mid / arr_size;
+    return mid;
+}
+
+    //Function for Example 3
+int sum(int rows, int cols, int arr[rows][cols]) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            arr[i][j] = i + j;
+        }
+    }
+    int temp = 0;
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            temp += arr[i][j];
+        }
+    }
+    return temp;
+}
 
 int main(int argc, char *argv[]) {
-    //1.Wild Pointer - declared but undefined pointer
-    //int* ptr0;//garbage value on GCC
-    //if (ptr0){printf("Value: %d\nAddress: %p\n", *ptr, ptr);}
+    #pragma region Example 1
+    int size0 = 0;
 
-    int* ptr0 = NULL;//correct declaration
+    printf("Enter size of array: ");
+    scanf("%d", &size0);
 
-    //2.Dangling pointer
-    int* ptr1;
-    {
-        //int* ptr1;//declare pointer in block is correct action
-        int d = 10;
-        ptr1 = &d;
-        printf("%d\n", *ptr1);
-        printf("%p\n", ptr0);
-    }
-    printf("%d\n", *ptr1);
-    printf("%p\n", ptr0);
+    int array[size0];
+    for (int i = 0; i < size0; i++) {array[i] = i; printf("array[%d] = %d\n", i, array[i]);}
+#pragma endregion
 
-    int *ptr2 = (int*)malloc(5 * sizeof(int));
-    ptr2[0] = 1;
-    ptr2[1] = 2;
-    ptr2[2] = 3;
-    ptr2[3] = 4;
-    ptr2[4] = 5;
+#pragma region Example 2
 
-    for (int i = 0; i < 5; i++) {printf("%d\n", ptr2[i]);}//error - there is no NULL-checking
+    int size1 = 0;
+    printf("Enter size of array: ");
+    scanf("%d", &size1);
 
-    free(ptr2);//error - this action makes memory locations available (free) for OS
+    int array1[size1];
+    printf("Average value = %d", vla_func(size1, array1));
+#pragma endregion
 
-    for (int i = 0; i < 5; i++) {printf("%d\n", ptr2[i]);}//error - garbage values
+#pragma region Example 3
 
-    int *ptr3 = func();
-    func1();
-    printf("%d\n", *ptr3);
+    int x = 0, y = 0;
+    printf("Enter x, y: ");
+    scanf("%d%d", &x, &y);
 
-    //3.Memory leak
+    int arr_2d[x][y];
+    printf("sum = %d", sum(size1, x, arr_2d));
 
-    int a = 5;
-    int *ptr4 = malloc(sizeof(int) * 5);//memory leak //int* const ptr4 - correct
-
-    // .    .    . //some code
-
-    ptr4 = &a;
-
-    ptr4 = malloc(sizeof(int) * 5);//error memory reallocation
-    free(ptr4);
-    ptr4 =NULL;
-
-    //4. Wrong size
-    int *ptr5 = (int*)malloc(sizeof(short) * 5);
-
-    //5.Try to access to NULL-pointer
-    int *ptr6 = (int*)malloc(sizeof(short) * 20000000000);
-
-    //6.Example exercise
-    int* ptr7 = calloc(5, sizeof(int));
-    if (ptr7 != NULL) {
-        int* temp = realloc(ptr7, sizeof(int) * 2);
-        if (temp == NULL) {
-            free(ptr7);
-            exit(1);
-        }
-
-        ptr7 = temp;
-    }
-    free(ptr7);
-    ptr7 = NULL;
-
+#pragma endregion
     return EXIT_SUCCESS;
 }
