@@ -1,51 +1,70 @@
-/* Structures */
+/* Structure memory organization */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct {
-    char* name;
-    int ID;
-    double GPA;
-} Student;
+struct example0 {
+    char a;
+    char b;
+    int c;
+    char d;
+};
 
+struct example0 example_array0[2] = {{1, 2, 3, 4}, {5, 6,7,8}};
+
+#pragma pack (show)
 struct Cars {
     char* brand;
     char* model;
-    double price;
     int year;
-} toyota = {"Toyota", "Corolla", 38000.00, 2020};
+    double price;
+};
 
-void print_cars(struct Cars p){printf("Car offer:\n%s %s\nPrice: %.2lf USD\nYear: %d\n", p.brand, p.model, p.price, p.year);}
+struct Cars cars_array1[2] = {{"BMW", "M3", 2005, 25000.00 }, {"Toyota", "Supra", 2003, 45000.00}};
+
+
+struct design_1 {
+    char ch1;
+    int var;
+    char ch2;
+    double d;
+};
+
+struct design_2 {
+    char ch1;
+    char ch2;
+    int var;
+    double d;
+};
+
+struct __attribute__((aligned(16))) big_endian {
+    char ch;
+    short sh;
+    int i;
+};
+
+struct little_endian {
+    char ch;
+    short sh;
+    int i;
+};
 
 int main(int argc, char *argv[]) {
-    Student student;
-    student.name = "Alber Einstein";
-    student.ID = 1006425;
-    student.GPA = 4.5;
-    printf("Student Record: \n%s\nID: %d\nGPA: %.1lf\n", student.name, student.ID, student.GPA);//stack
+    printf("Struct Cars size is %zd bytes\n", sizeof(struct Cars));
+    printf("Struct Cars size is %zd bytes\n", sizeof(cars_array1[0]));
+    printf("Struct Cars size is %zd bytes\n", sizeof(cars_array1[1]));
 
-    Student student2 = {student.name = "Margareth Wilbert", student.ID = 1006441, student.GPA = 4.82};//stack
-    printf("Student Record: \n%s\nID: %d\nGPA: %.2lf\n", student2.name, student2.ID, student2.GPA);
+    printf("Size of design_1 is %zd bytes\n", sizeof(struct design_1));//24
+    printf("Size of design_2 is %zd bytes\n", sizeof(struct design_2));//16
 
-    Student student3 = {"John Smith", 1006489, 4.91};//stack
-    printf("Student Record: \n%s\nID: %d\nGPA: %.2lf\n", student3.name, student3.ID, student3.GPA);
+    struct big_endian arrBE[2] = {{1,5,9}, {1, 5, 9}};
 
-    print_cars(toyota);//global structure
+    int control = 7;
 
-    struct Cars ford = {"Ford", "Focus", 25000.00, 2018};
-    print_cars(ford);
+    struct little_endian arrLE[2] = {{1,5,9}, {1, 5, 9}};
 
-    struct Cars renault = {"Renault", "Clio", 30000.00, 2021};
-    struct Cars* ptr_renault = &renault;
-
-    (*ptr_renault).year = 2022;//equal to ->
-    print_cars(*ptr_renault);
-
-    ptr_renault->price = 32500.00;
-    print_cars(*ptr_renault);
-    printf("Size of Cars is %zd bytes\n", sizeof(struct Cars));
-    printf("Size of ptr_renault is %zd bytes \n", sizeof(ptr_renault));
+    printf("Size of big_endian is %zd bytes\n", sizeof(struct big_endian));
+    printf("Size of little_endian is %zd bytes\n", sizeof(struct little_endian));
 
     return EXIT_SUCCESS;
 }
