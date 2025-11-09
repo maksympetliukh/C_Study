@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
     int (*ptr2D)[COLS] = (int(*)[COLS])malloc(sizeof(int) * ROWS * COLS);//24 bytes
     if (ptr2D != NULL) {
         printf("Size of 2D array is %lu bytes\n", sizeof(int) * ROWS * COLS);
-        ptr2D[0][2] = 45;
+        ptr2D[0][2] = 50;
         ptr2D[1][1] = 7;
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
