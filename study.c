@@ -1,33 +1,51 @@
-/* _Generic */
+/* Structures */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-#define GetType(T) _Generic((T), int: "Integer", double: "Double", default: "Unknown")
+typedef struct {
+    char* name;
+    int ID;
+    double GPA;
+} Student;
 
-void print_int(int x){printf("x = %d\n", x);}
-void print_double(double x){printf("x = %lf\n", x);}
-#define GET(x) _Generic((x), int: print_int, double: print_double, default: "Unknown")(x)
+struct Cars {
+    char* brand;
+    char* model;
+    double price;
+    int year;
+} toyota = {"Toyota", "Corolla", 38000.00, 2020};
 
-void int_add(int x, int y){printf("int result = %d\n", x + y);}
-void double_add(double x, double y){printf("Double result = %lf\n", x + y);}
-void string_add(char* x, char* y){printf("String result = %s %s\n", x, y);}
-void char_add(char x, char y){printf("Char result = %c%c\n", x, y);}
-#define GENERIC_ADD(x,y) _Generic((x), int:int_add, double:double_add, char*: string_add, char: char_add, default: "Unknown")(x,y)
+void print_cars(struct Cars p){printf("Car offer:\n%s %s\nPrice: %.2lf USD\nYear: %d\n", p.brand, p.model, p.price, p.year);}
 
 int main(int argc, char *argv[]) {
-    printf("%s\n",_Generic(25, int: "integer", char: "character", default: "unknown"));
+    Student student;
+    student.name = "Alber Einstein";
+    student.ID = 1006425;
+    student.GPA = 4.5;
+    printf("Student Record: \n%s\nID: %d\nGPA: %.1lf\n", student.name, student.ID, student.GPA);//stack
 
-    printf("%s\n", GetType(3));
-    printf("%s\n", GetType(3.1415));
+    Student student2 = {student.name = "Margareth Wilbert", student.ID = 1006441, student.GPA = 4.82};//stack
+    printf("Student Record: \n%s\nID: %d\nGPA: %.2lf\n", student2.name, student2.ID, student2.GPA);
 
-    GET(5);
-    GET(5.128);
+    Student student3 = {"John Smith", 1006489, 4.91};//stack
+    printf("Student Record: \n%s\nID: %d\nGPA: %.2lf\n", student3.name, student3.ID, student3.GPA);
 
-    GENERIC_ADD(5.1, 5.2);
-    GENERIC_ADD(7, 16);
-    GENERIC_ADD("Hello", "World");
-    GENERIC_ADD((char)'A', (char)66);
+    print_cars(toyota);//global structure
+
+    struct Cars ford = {"Ford", "Focus", 25000.00, 2018};
+    print_cars(ford);
+
+    struct Cars renault = {"Renault", "Clio", 30000.00, 2021};
+    struct Cars* ptr_renault = &renault;
+
+    (*ptr_renault).year = 2022;//equal to ->
+    print_cars(*ptr_renault);
+
+    ptr_renault->price = 32500.00;
+    print_cars(*ptr_renault);
+    printf("Size of Cars is %zd bytes\n", sizeof(struct Cars));
+    printf("Size of ptr_renault is %zd bytes \n", sizeof(ptr_renault));
 
     return EXIT_SUCCESS;
 }
