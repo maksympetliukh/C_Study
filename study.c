@@ -1,70 +1,50 @@
-/* Structure memory organization */
+/* Anonymous structures and typedef */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-struct example0 {
-    char a;
-    char b;
-    int c;
-    char d;
+struct data {
+    char index;
+    int ID;
 };
 
-struct example0 example_array0[2] = {{1, 2, 3, 4}, {5, 6,7,8}};
+struct data data0 = {'A', 1};
 
-#pragma pack (show)
-struct Cars {
-    char* brand;
-    char* model;
-    int year;
-    double price;
-};
+struct {         //available for actions, but impossible to create new anonymous structure without typedef
+    char literal;
+    int number;
+} anon_struct0 = {'X', 20};
 
-struct Cars cars_array1[2] = {{"BMW", "M3", 2005, 25000.00 }, {"Toyota", "Supra", 2003, 45000.00}};
-
-
-struct design_1 {
-    char ch1;
-    int var;
-    char ch2;
-    double d;
-};
-
-struct design_2 {
-    char ch1;
-    char ch2;
-    int var;
-    double d;
-};
-
-struct __attribute__((aligned(16))) big_endian {
+typedef struct {
     char ch;
-    short sh;
     int i;
-};
+} anonymous;//now we can create new anonymous structures with alias, structure can have more than one alias
 
-struct little_endian {
-    char ch;
-    short sh;
-    int i;
+typedef struct new_struct {
+    int a;
+    int b;
+} new_s1;//also alias for standard "struct new_student" type
+
+typedef struct {//"unnamed" type
+    int x;
+    int y;
+}unnamed;
+
+struct unnamed { //"struct unnamed" type
+    int f;
+    int g;
 };
 
 int main(int argc, char *argv[]) {
-    printf("Struct Cars size is %zd bytes\n", sizeof(struct Cars));
-    printf("Struct Cars size is %zd bytes\n", sizeof(cars_array1[0]));
-    printf("Struct Cars size is %zd bytes\n", sizeof(cars_array1[1]));
+    struct data data1 = {'B', 2};
 
-    printf("Size of design_1 is %zd bytes\n", sizeof(struct design_1));//24
-    printf("Size of design_2 is %zd bytes\n", sizeof(struct design_2));//16
+    anonymous anon1 = {'S', 30};
 
-    struct big_endian arrBE[2] = {{1,5,9}, {1, 5, 9}};
+    new_s1 standard1 = {6, 2};
 
-    int control = 7;
-
-    struct little_endian arrLE[2] = {{1,5,9}, {1, 5, 9}};
-
-    printf("Size of big_endian is %zd bytes\n", sizeof(struct big_endian));
-    printf("Size of little_endian is %zd bytes\n", sizeof(struct little_endian));
+    unnamed str1;
+                             //two different data types!!!
+    struct unnamed str2;
 
     return EXIT_SUCCESS;
 }
