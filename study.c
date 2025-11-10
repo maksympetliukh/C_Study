@@ -1,50 +1,43 @@
-/* Anonymous structures and typedef */
+/* Nested Structures */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-struct data {
-    char index;
-    int ID;
-};
-
-struct data data0 = {'A', 1};
-
-struct {         //available for actions, but impossible to create new anonymous structure without typedef
-    char literal;
-    int number;
-} anon_struct0 = {'X', 20};
-
 typedef struct {
-    char ch;
-    int i;
-} anonymous;//now we can create new anonymous structures with alias, structure can have more than one alias
-
-typedef struct new_struct {
     int a;
     int b;
-} new_s1;//also alias for standard "struct new_student" type
+}nested;
 
-typedef struct {//"unnamed" type
+struct outer{
     int x;
     int y;
-}unnamed;
-
-struct unnamed { //"struct unnamed" type
-    int f;
-    int g;
+    nested n1;//nested structure as field of outer structure
+    struct outer* ptr_outer;//pointer to same type structure or itself
 };
 
+struct new_outer {
+    char ch;
+    struct {int var0; int var1;};//embedded anonymous structure
+    //struct {int var0, int var1;};//error, impossible to create same anonymous nested structure
+    struct {int var2; int var3;}new_nested;//also anonymous structure with alias
+};
 int main(int argc, char *argv[]) {
-    struct data data1 = {'B', 2};
+    struct outer outer_1 = {5, 6, {7, 8}, .ptr_outer = &outer_1};
+    struct outer outer_2 = {.x = 10, .y = 20, .n1 = {.a = 11, .b = 12}, .ptr_outer = &outer_1};
+    struct outer outer_3 = {.x = 100, .y = 52, .n1.a = 1, .n1.b = 22, .ptr_outer = &outer_2};
 
-    anonymous anon1 = {'S', 30};
+    printf("outer_1.n1.a = %d\n", outer_1.n1.a);
 
-    new_s1 standard1 = {6, 2};
+    outer_1.ptr_outer->n1.a = 990;//access for the nested element by pointer
+    printf("outer_1.n1.a after changes by pointer = %d\n", outer_1.n1.a);
 
-    unnamed str1;
-                             //two different data types!!!
-    struct unnamed str2;
+    printf("X = %d\nY = %d\nA = %d\nB = %d\n", outer_3.x, outer_3.y, outer_3.n1.a, outer_3.n1.b);
+    printf("Address of ptr.outer 1 = %p\n", outer_1.ptr_outer);//shows address of outer_1
+    printf("Address of ptr.outer 2 = %p\n", outer_2.ptr_outer);//shows address of outer_1
+    printf("Address of ptr.outer 3 = %p\n", outer_3.ptr_outer);//shows address of outer_2
+
+    struct new_outer new_o;
+    new_o.new_nested.var2 = 16;//access to field of embedded (nested) structure
 
     return EXIT_SUCCESS;
 }
