@@ -1,31 +1,28 @@
-/*Structures and const, static, extern*/
+/*Dynamic memory allocation for structures*/
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "extern_header.h"
+#include <string.h>
 
-static struct static_data {        //available only in current translation unit
-    int a;
-    int b;
-}static_data = {1, 2};
+typedef struct {
+    int year;
+    char* model;
+    double price;
+}Car;
 
-struct s1 {
-    const int v0;
-    int v1;
-};
-int main(int argc, char *argv[]) {
-    printf("Static A = %d\nStatic B = %d\n", static_data.a, static_data.b);
+int main(void) {
+    Car* bmw = malloc(sizeof(Car));
+    if (bmw == NULL){printf("Allocation failed\n"); return EXIT_FAILURE;}
+    bmw->year = 2025;
+    bmw->model = (char*)malloc(strlen("BMW X5") + 1);
+    if (bmw->model == NULL){printf("Allocation failed\n"); exit(1);}
+    strcpy(bmw->model, "BMW X5");
+    bmw->price = 75000.00;
 
-    printf("Extern X = %d\nExtern Y = %d\n", extern_data.x, extern_data.y);//compiler knows how to build this struct from extern_header.h
-
-    //const_data.var0 = 1000;//error, impossible to change const data
-    printf("Const var0 = %d\nConst var1 = %d\n", const_data.var0, const_data.var1);
-
-    struct s1 s1 = {100, 12};
-
-    //s1.v0 = 89;error
-    s1.v1 = 78;
-    printf("s1.v0 = %d\ns1.v1 = %d\n",s1.v0, s1.v1);
+    printf("Model: %s\nPrice: %.2lf\nYear: %d\n", bmw->model, bmw->price, bmw->year);
+    free(bmw->model);
+    free(bmw);
+    bmw = NULL;
 
     return EXIT_SUCCESS;
 }
