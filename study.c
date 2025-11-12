@@ -1,28 +1,33 @@
-/*Dynamic memory allocation for structures*/
+/* Arrays and Structures*/
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <stdint.h>
 
 typedef struct {
-    int year;
-    char* model;
-    double price;
-}Car;
+    uint8_t a;
+    uint32_t c;
+}data;
+
 
 int main(void) {
-    Car* bmw = malloc(sizeof(Car));
-    if (bmw == NULL){printf("Allocation failed\n"); return EXIT_FAILURE;}
-    bmw->year = 2025;
-    bmw->model = (char*)malloc(strlen("BMW X5") + 1);
-    if (bmw->model == NULL){printf("Allocation failed\n"); exit(1);}
-    strcpy(bmw->model, "BMW X5");
-    bmw->price = 75000.00;
+    data data0[2] = {
+        {'A', 65},
+        {'B', 66},
+    };
 
-    printf("Model: %s\nPrice: %.2lf\nYear: %d\n", bmw->model, bmw->price, bmw->year);
-    free(bmw->model);
-    free(bmw);
-    bmw = NULL;
+    data* ptr_data [2] = { &data0[0], &data0[1] };
+    size_t array_size = 2;
+
+    data* p_data = (data*)malloc(sizeof(data) * array_size);
+    if (p_data == NULL) {free(p_data); return 1;}
+    for (uint32_t i = 0; i < array_size; i++) {
+        p_data[i].a = ptr_data[i]->a;
+        p_data[i].c = ptr_data[i]->c;
+        printf("p_data[%d].a = %c\np_data[%d].c = %d\n", i, p_data[i].a, i,  p_data[i].c);
+    }
+    free(p_data);
+    p_data = NULL;
 
     return EXIT_SUCCESS;
 }
