@@ -1,99 +1,103 @@
-/*Copying of structures*/
+    /*Structures as arguments of functions*/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <string.h>
 
-#define SIZE 10
+    //Example 1
+    typedef struct {
+        int ID;
+        char name[10];
+    }Example;
 
-typedef struct {
-    int year;
-    int price;
-    char* name;
+    void by_value(Example var) {
+        printf("Name: %s\nID: %d\n", var.name, var.ID);
+    }
+    //Example 2
+    void by_reference(Example* p_var, int _id,const char*  _name) {
+        p_var->ID = _id;
+        strncpy(p_var->name, _name, sizeof(p_var->name) - 1);
+        p_var->name[sizeof(p_var->name) - 1] = '\0';
+        printf("Name: %s\nID: %d\n", p_var->name, p_var->ID);
+    }
 
-} example;
+    //Example 3
+    typedef struct {
+        int a;
+        int* ptr;
+    }NewStruct;
 
-typedef struct {
-    int ID;
-    example* nested_example;
-}outer_example;
+    void new_by_value(NewStruct var) {
+        if (var.ptr){printf("a = %d\nAddress of ptr = %p\nValue at ptr = %d\n", var.a, var.ptr, *var.ptr);}
+    }
 
-//deep copy
-int deep_struct_copy(const outer_example* source, outer_example* dest) {
-    if (source == NULL || dest == NULL) {return EXIT_FAILURE;}
-    if (source->nested_example == NULL || dest->nested_example == NULL) {return EXIT_FAILURE;}
-    if (source->nested_example->name == NULL || dest->nested_example->name == NULL) {return EXIT_FAILURE;}
+    void new_by_reference(NewStruct* p_var, int _a, int * _ptr) {
+        p_var->a = _a;
+        p_var->ptr = _ptr;
+        if (p_var->ptr){*p_var->ptr = _a;}
+        printf("a = %d\nAddress of ptr = %p\nValue at ptr = %d\n", p_var->a, p_var->ptr, *p_var->ptr);
+    }
 
-    dest->ID = source->ID;
-    dest->nested_example->year = source->nested_example->year;
-    dest->nested_example->price = source->nested_example->price;
-    char* result = strcpy(dest->nested_example->name, source->nested_example->name);
+    //Example 4
+    NewStruct return_struct_value() {
+        NewStruct v1 = {15, NULL};
+        return v1;
+    }
 
-    printf("result = %s\n", result);
-    return 0;
-}
+    //Example 5
+    NewStruct* return_struct_reference() {
+        NewStruct* v2 = calloc(1, sizeof(NewStruct));
+       if (!v2) {return NULL;}
 
-int main(void) {
-    //shallow copy
-    example ex1 = {2025, 35000, "Audi"};
-    example ex2 = ex1;
+        v2->ptr = calloc(1, sizeof(v2->ptr));
+        if (!v2->ptr) {free(v2);return NULL;}
 
-    printf("ex2.name = %s\n", ex2.name);
+        *v2->ptr = 0;
+        return v2;
+    }
 
-    //shallow copy
-    example ex3 = {2026, 50000};
-    ex3.name = malloc(strlen("Volkswagen") + 1);
-    if (ex3.name == NULL) {exit (1);}
-    strcpy(ex3.name, "Volkswagen");
+    int main(void) {
+        //Example 1
+        Example struct_by_value = {1006442, "Kateryna" };
+        by_value(struct_by_value);
 
-    printf("ex3.name = %s\n", ex3.name);
+        //Example 2
+        Example* struct_by_reference = malloc(sizeof(*struct_by_reference));
+        if (struct_by_reference == NULL) {printf("Allocation failed\n");return EXIT_FAILURE;}
+        by_reference(struct_by_reference, 1006425, "Maksym");
 
-    free(ex3.name);
-    ex3.name = NULL;
+        free(struct_by_reference);
+        struct_by_reference = NULL;
 
-    //deep copy
-    char buffer[SIZE];
+        //Example 3
+        NewStruct new_struct_by_value = {917, malloc(sizeof(new_struct_by_value.ptr))};
+        new_by_value(new_struct_by_value);
+        free(new_struct_by_value.ptr);
+        new_struct_by_value.ptr = NULL;
 
-    printf("Enter some word: \n");
-    scanf("%9s", buffer);
+        NewStruct* new_struct_by_reference = malloc(sizeof(NewStruct));
+        if (new_struct_by_reference == NULL) {printf("Allocation failed\n");return EXIT_FAILURE;};
 
-    printf("you entered %s\n", buffer);
+        new_by_reference(new_struct_by_reference, 111, malloc(sizeof(new_struct_by_reference->ptr)));
 
-    outer_example* outer_1 = malloc(sizeof(outer_example));
-    if (outer_1 == NULL) {exit (1);}
+        free(new_struct_by_reference->ptr);
+        free(new_struct_by_reference);
+        new_struct_by_reference = NULL;
 
-    outer_1->ID = 14;
+        int b = 700;
 
-    outer_1->nested_example = malloc(sizeof(example));
-    if (outer_1->nested_example == NULL) {exit (1);}
+        NewStruct rsv = return_struct_value();
+        rsv.ptr = &b;
+        printf("a = %d\nValue at ptr = %d\n", rsv.a, *rsv.ptr);
 
-    outer_1->nested_example->price = 20000;
-    outer_1->nested_example->year = 2025;
-    outer_1->nested_example->name = malloc(sizeof(char) * SIZE);
-    if (outer_1->nested_example->name == NULL) {exit (1);}
+        //Example 5
+        NewStruct* rsr = return_struct_reference();
+        rsr->a = 4;
+        printf("a = %d\nValue at ptr = %d\n", rsr->a, *rsr->ptr);
 
-    strcpy(outer_1->nested_example->name, buffer);
+        free(rsr->ptr);
+        free(rsr);
+        rsr = NULL;
 
-    printf("outer_1->nested_example->name = %s\n", outer_1->nested_example->name);
-
-    outer_example* outer_2 = malloc(sizeof(outer_example));
-    if (outer_2 == NULL) {exit (1);}
-
-    outer_2->nested_example = malloc(sizeof(example));
-    if (outer_2->nested_example == NULL) {exit (1);}
-
-    outer_2->nested_example->name = malloc(sizeof(char) * SIZE);
-    if (outer_2->nested_example->name == NULL) {exit (1);}
-
-    deep_struct_copy(outer_1, outer_2);
-
-    free(outer_2->nested_example->name);
-    free(outer_2->nested_example);
-    free(outer_2);
-    free(outer_1->nested_example->name);
-    free(outer_1->nested_example);
-    free(outer_1);
-    outer_1 = NULL;
-
-    return EXIT_SUCCESS;
-}
+        return EXIT_SUCCESS;
+    }
