@@ -1,103 +1,46 @@
-    /*Structures as arguments of functions*/
+/*Unions*/
 
-    #include <stdio.h>
-    #include <stdlib.h>
-    #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-    //Example 1
-    typedef struct {
-        int ID;
-        char name[10];
-    }Example;
+typedef union {
+    char ch;
+    int i;
+    double d;
+}mix;            //A union has size equal to his biggest field (element)
 
-    void by_value(Example var) {
-        printf("Name: %s\nID: %d\n", var.name, var.ID);
-    }
-    //Example 2
-    void by_reference(Example* p_var, int _id,const char*  _name) {
-        p_var->ID = _id;
-        strncpy(p_var->name, _name, sizeof(p_var->name) - 1);
-        p_var->name[sizeof(p_var->name) - 1] = '\0';
-        printf("Name: %s\nID: %d\n", p_var->name, p_var->ID);
-    }
+mix m0;
 
-    //Example 3
-    typedef struct {
-        int a;
-        int* ptr;
-    }NewStruct;
+typedef union {
+    char ch;
+    int i;
+    double d;
+    struct s{int var_i; double var_d;} s;//union can store structures as member
+}super_mix;
 
-    void new_by_value(NewStruct var) {
-        if (var.ptr){printf("a = %d\nAddress of ptr = %p\nValue at ptr = %d\n", var.a, var.ptr, *var.ptr);}
-    }
+mix func(mix _mix){_mix.d = 111.222; return _mix;}//union as return value of function
 
-    void new_by_reference(NewStruct* p_var, int _a, int * _ptr) {
-        p_var->a = _a;
-        p_var->ptr = _ptr;
-        if (p_var->ptr){*p_var->ptr = _a;}
-        printf("a = %d\nAddress of ptr = %p\nValue at ptr = %d\n", p_var->a, p_var->ptr, *p_var->ptr);
-    }
+int main(void) {
+    m0.ch = 'A'; //A union cannot store several values of different members (elements) simultaneously
+    m0.i = 65;
+    m0.d = 3.1415;
 
-    //Example 4
-    NewStruct return_struct_value() {
-        NewStruct v1 = {15, NULL};
-        return v1;
-    }
+    mix m1 = {0};//equal to m1.ch = 0;// initialization of the first element
 
-    //Example 5
-    NewStruct* return_struct_reference() {
-        NewStruct* v2 = calloc(1, sizeof(NewStruct));
-       if (!v2) {return NULL;}
+    mix* m2 = &m1;
+    m2->ch = 'B';
 
-        v2->ptr = calloc(1, sizeof(v2->ptr));
-        if (!v2->ptr) {free(v2);return NULL;}
+    int* ptr = &m1.i;
+    *ptr = 500;
 
-        *v2->ptr = 0;
-        return v2;
-    }
+    mix m_arr[5] = {{0}, [1].i = 97, [2].i = 100, [3].ch = 'C', [4].i = 1169};//initialization of every element by different members
+    for (int i = 0; i < 5; i++) {printf("m_arr[%d] = %d\n", i, m_arr[i].i);}
 
-    int main(void) {
-        //Example 1
-        Example struct_by_value = {1006442, "Kateryna" };
-        by_value(struct_by_value);
+    super_mix sm0 = {.s = {10, 20.544}};
+    printf("var_i = %d\nvar_d = %.3lf\n", sm0.s.var_i, sm0.s.var_d);
+    printf("Size of sm0 is %zu bytes\n", sizeof(sm0));//16 bytes - compiler aligned int field to 8 bytes
 
-        //Example 2
-        Example* struct_by_reference = malloc(sizeof(*struct_by_reference));
-        if (struct_by_reference == NULL) {printf("Allocation failed\n");return EXIT_FAILURE;}
-        by_reference(struct_by_reference, 1006425, "Maksym");
+    printf("_mix.d = %.3lf\n", func(m0).d);
 
-        free(struct_by_reference);
-        struct_by_reference = NULL;
-
-        //Example 3
-        NewStruct new_struct_by_value = {917, malloc(sizeof(new_struct_by_value.ptr))};
-        new_by_value(new_struct_by_value);
-        free(new_struct_by_value.ptr);
-        new_struct_by_value.ptr = NULL;
-
-        NewStruct* new_struct_by_reference = malloc(sizeof(NewStruct));
-        if (new_struct_by_reference == NULL) {printf("Allocation failed\n");return EXIT_FAILURE;};
-
-        new_by_reference(new_struct_by_reference, 111, malloc(sizeof(new_struct_by_reference->ptr)));
-
-        free(new_struct_by_reference->ptr);
-        free(new_struct_by_reference);
-        new_struct_by_reference = NULL;
-
-        int b = 700;
-
-        NewStruct rsv = return_struct_value();
-        rsv.ptr = &b;
-        printf("a = %d\nValue at ptr = %d\n", rsv.a, *rsv.ptr);
-
-        //Example 5
-        NewStruct* rsr = return_struct_reference();
-        rsr->a = 4;
-        printf("a = %d\nValue at ptr = %d\n", rsr->a, *rsr->ptr);
-
-        free(rsr->ptr);
-        free(rsr);
-        rsr = NULL;
-
-        return EXIT_SUCCESS;
-    }
+    return EXIT_SUCCESS;
+}
