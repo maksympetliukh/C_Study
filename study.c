@@ -1,37 +1,24 @@
-/*Type qualifiers: volatile, restrict, _Atomic*/
+/*GTK 3.0 Library*/
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <gtk/gtk.h>
+#include <gdk/gdk.h>
+#include <gdk/gdkkeys.h>
+#include <gsk/gsk.h>
 
-volatile int var = 28;/*volatile tells the compiler that the variable's value can be modified (overwritten)
-                      by another program, task or hardware and the compiler doesn't optimize its accesses.
-                      The compiler must fetch the value from memory every ti it's referenced*/
-int main(void) {
-    //restrict
-    int* restrict a = malloc(sizeof(a) * 5);//restrict "allows" the compiler to more "aggressive" optimization for
-    a[1] = 4;                                   //current memory access
-    printf("a = %d\n", a[1]);
-    a[1] += 6;
-    printf("a = %d\n", a[1]);
-    free(a);
-    a = NULL;
+int main(int argc, char **argv) {
+    gtk_init();//initialization of widgets and toolset
 
-    //volatile
-    printf("var = %d\n", var);
-    var++;
-    printf("var = %d\n", var);
-    printf("var = %d\n", var);
+    GtkWidget *window = gtk_window_new();//initialization of main window
 
-    const volatile int data = 0;
-    while (data == 0){/*doing some work or waiting for changes in data*/}
-    //The compiler takes value from register every time
-    //Only the outer program or hardware can change the volatile value
+    gtk_window_set_title(GTK_WINDOW(window), "My first widget");//Set a main window header
+    gtk_window_set_default_size(GTK_WINDOW(window), 1000, 800);//Set window size
+    gtk_window_present(GTK_WINDOW(window));//show a window
 
-    //_Atomic
-    _Atomic int x = 10;
-    //Until this expression is executed only one thread has access to atomic variable
-    x += (x + 1);
-    printf("x = %d\n", x);
+    while (g_list_model_get_n_items(gtk_window_get_toplevels()) > 0) {//start the loop of events listening and user interaction
+        g_main_context_iteration(NULL, true);//exit loop after every window will be closed
+    }
 
     return EXIT_SUCCESS;
 }
