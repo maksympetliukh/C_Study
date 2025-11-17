@@ -11,9 +11,8 @@ static void app_activate(GApplication* app, gpointer* user_data) {
 
     //Get object GtkWindow by identifier "window"
     GObject* window = gtk_builder_get_object(builder, "window");
-
-    gtk_window_set_application(GTK_WINDOW(window), app);//set application window
     g_object_unref(builder);//Free GtkBuilder
+    gtk_window_set_application(GTK_WINDOW(window), app);//set application window
 
     gtk_window_present(GTK_WINDOW(window));
 }
