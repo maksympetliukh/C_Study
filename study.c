@@ -1,4 +1,4 @@
-/*GTK 4.0 mixed sources*/
+/*GTK 4.0 widget positioning*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,33 +6,28 @@
 #include <gdk/gdk.h>
 
 static void app_activate(GtkApplication* app, gpointer* user_data) {
-    //define interface
-    const char* xml_label = "<interface><object class=\"GtkLabel\" id=\"label\"><property name=\"label\">Hello, my friend</property></object></interface>";
+    GtkWidget* window = gtk_application_window_new(GTK_APPLICATION_WINDOW(app));
+    gtk_window_set_title(GTK_WINDOW(window), "Centred button");
+    gtk_window_set_default_size(GTK_WINDOW(window), 250, 200);
 
-    //create GtkBuilder object and upload interface definition from xml variable
-    GtkBuilder* builder = gtk_builder_new_from_file("builder.ui");
+    GtkWidget* button = gtk_button_new_with_label("Hello");
 
-    //Upload interface definition from xml_label
-    gtk_builder_add_from_string(builder, xml_label, -1, NULL);
+    //horizontal aligning by left
+    gtk_widget_set_halign(button, GTK_ALIGN_START);
+    //vertical aligning
+    gtk_widget_set_valign(button, GTK_ALIGN_START);
 
-    //Get object window by identifier "window"
-    GObject* window = gtk_builder_get_object(builder, "window");
+    //indent bottom
+    gtk_widget_set_margin_bottom(button, 10);
+    //indent right
+    gtk_widget_set_margin_end(button, 5);
+    //-//- left
+    gtk_widget_set_margin_start(button, 10);
+    //-//-top
+    gtk_widget_set_margin_top(button, 20);
 
-    //Get object label by identifier "label"
-    GObject* label = gtk_builder_get_object(builder, "label");
-
-    //Add GtkLabel to GtkWindow
-    gtk_window_set_child(GTK_WINDOW(window), GTK_WIDGET(label));
-
-    //Free GtkBuilder
-    g_object_unref(builder);
-
-    //Set application window
-    gtk_window_set_application(GTK_WINDOW(window), app);
-
-    //Show application window
+    gtk_window_set_child(GTK_WINDOW(window), button);
     gtk_window_present(GTK_WINDOW(window));
-
 }
 int main(int argc, char** argv) {
     //init application
