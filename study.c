@@ -1,4 +1,4 @@
-/*GTK4.0 - GtkBox*/
+/*GTK4.0 - GtkGrid*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,24 +7,19 @@
 
 static void app_activate(GApplication* app, gpointer* user_data) {
     GtkWidget* window = gtk_application_window_new(GTK_APPLICATION(app));
-    gtk_window_set_title(GTK_WINDOW(window), "My GTK Box");
-    gtk_window_set_default_size(GTK_WINDOW(window), 800, 600);
+    gtk_window_set_title(GTK_WINDOW(window), "GTK Grid");
+    gtk_window_set_default_size(GTK_WINDOW(window), 640, 480);
 
-    //create container GtkBox
-    GtkWidget* box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
-    gtk_widget_set_valign(box, GTK_ALIGN_START);
+    GtkWidget* grid = gtk_grid_new();
 
-    //create a few buttons
     GtkWidget* btn0 = gtk_button_new_with_label("Button 0");
+    gtk_grid_attach(GTK_GRID(grid), btn0, 0, 0, 1, 1);
     GtkWidget* btn1 = gtk_button_new_with_label("Button 1");
+    gtk_grid_attach(GTK_GRID(grid), btn1, 1, 0, 1, 1);
     GtkWidget* btn2 = gtk_button_new_with_label("Button 2");
+    gtk_grid_attach(GTK_GRID(grid), btn2, 0, 1, 1, 1);
 
-    //add all buttons to box
-    gtk_box_append(GTK_BOX(box), btn0);
-    gtk_box_append(GTK_BOX(box), btn1);
-    gtk_box_append(GTK_BOX(box), btn2);
-
-    gtk_window_set_child(GTK_WINDOW(window), box);
+    gtk_window_set_child(GTK_WINDOW(window), grid);
     gtk_window_present(GTK_WINDOW(window));
 }
 int main(int argc, char **argv) {
