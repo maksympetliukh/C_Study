@@ -1,4 +1,4 @@
-/*GTK4.0 - GtkGrid*/
+/*GTK4.0 - GtkFixed*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,16 +10,20 @@ static void app_activate(GApplication* app, gpointer* user_data) {
     gtk_window_set_title(GTK_WINDOW(window), "GTK Grid");
     gtk_window_set_default_size(GTK_WINDOW(window), 640, 480);
 
-    GtkWidget* grid = gtk_grid_new();
+    GtkWidget* fix = gtk_fixed_new();
 
     GtkWidget* btn0 = gtk_button_new_with_label("Button 0");
-    gtk_grid_attach(GTK_GRID(grid), btn0, 0, 0, 1, 1);
-    GtkWidget* btn1 = gtk_button_new_with_label("Button 1");
-    gtk_grid_attach(GTK_GRID(grid), btn1, 1, 0, 1, 1);
-    GtkWidget* btn2 = gtk_button_new_with_label("Button 2");
-    gtk_grid_attach(GTK_GRID(grid), btn2, 0, 1, 1, 1);
+    gtk_widget_set_size_request(btn0, 64, 64);
+    gtk_fixed_put(GTK_FIXED(fix), btn0, 50, 50);
 
-    gtk_window_set_child(GTK_WINDOW(window), grid);
+    GtkWidget* btn1 = gtk_button_new_with_label("Button 1");
+    gtk_widget_set_size_request(btn1, 96, 96);
+    gtk_fixed_put(GTK_FIXED(fix), btn1, 150, 150);
+
+    gtk_fixed_move(GTK_FIXED(fix), btn1, 80, 70);
+    gtk_fixed_move(GTK_FIXED(fix), btn0, 200, 300);
+
+    gtk_window_set_child(GTK_WINDOW(window), fix);
     gtk_window_present(GTK_WINDOW(window));
 }
 int main(int argc, char **argv) {
